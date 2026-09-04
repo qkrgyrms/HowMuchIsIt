@@ -1,4 +1,5 @@
 import Anthropic from "@anthropic-ai/sdk";
+import mockRecipes from "./mockRecipes.json";
 import type { RecommendResponse } from "./types";
 
 const SYSTEM_PROMPT = `당신은 한국 가정식 레시피 추천 전문가입니다.
@@ -70,6 +71,10 @@ async function requestRecipes(
 export async function getRecipeRecommendations(
   ingredients: string[],
 ): Promise<RecommendResponse> {
+  if (process.env.USE_MOCK_RECIPES === "true") {
+    return mockRecipes as RecommendResponse;
+  }
+
   const apiKey = process.env.ANTHROPIC_API_KEY;
   if (!apiKey) {
     throw new Error("ANTHROPIC_API_KEY is not configured");
