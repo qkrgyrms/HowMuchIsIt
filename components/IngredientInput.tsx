@@ -34,7 +34,7 @@ export function IngredientInput({
             }
           }}
           placeholder="예: 두부, 대파, 계란"
-          className="flex-1 rounded-xl border border-zinc-300 px-4 py-3 text-base focus:border-zinc-500 focus:outline-none"
+          className="flex-1 rounded-xl border border-zinc-300 bg-white px-4 py-3 text-base text-zinc-900 placeholder:text-zinc-400 focus:border-zinc-500 focus:outline-none"
         />
         <button
           type="button"

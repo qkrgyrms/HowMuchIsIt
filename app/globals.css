@@ -12,11 +12,11 @@
   --font-mono: var(--font-geist-mono);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+/* 이 서비스는 라이트 테마로 고정한다. 시스템 다크모드를 따라가면
+   body는 어두워지지만 input 등 폼 컨트롤은 브라우저 기본(흰 배경)을
+   유지해 글자가 안 보이는 문제가 생긴다. */
+:root {
+  color-scheme: light;
 }
 
 body {
