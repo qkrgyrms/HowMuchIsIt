@@ -5,7 +5,7 @@ import { useAppStore } from "@/lib/store";
 import { RecipeCard } from "@/components/RecipeCard";
 
 export default function RecipesPage() {
-  const { recipes, ingredients } = useAppStore();
+  const { recipes, ingredients, shoppingList } = useAppStore();
 
   if (recipes.length === 0) {
     return (
@@ -32,9 +32,14 @@ export default function RecipesPage() {
       <div className="w-full max-w-lg">
         <div className="flex items-center justify-between">
           <h1 className="text-xl font-bold text-zinc-900">추천 레시피</h1>
-          <Link href="/" className="text-sm text-zinc-500 hover:text-zinc-800">
-            재료 다시 입력
-          </Link>
+          <div className="flex items-center gap-3">
+            <Link href="/shopping-list" className="text-sm text-zinc-500 hover:text-zinc-800">
+              장보기 리스트{shoppingList.length > 0 ? ` (${shoppingList.length})` : ""}
+            </Link>
+            <Link href="/" className="text-sm text-zinc-500 hover:text-zinc-800">
+              재료 다시 입력
+            </Link>
+          </div>
         </div>
         <p className="mt-1 text-sm text-zinc-500">
           보유 재료: {ingredients.join(", ")}

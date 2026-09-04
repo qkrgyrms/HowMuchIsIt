@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { use } from "react";
+import { use, useState } from "react";
 import { useAppStore } from "@/lib/store";
 import { DifficultyBadge, MatchBadge } from "@/components/Badge";
 
@@ -12,7 +12,19 @@ export default function RecipeDetailPage({
 }) {
   const { id } = use(params);
   const recipes = useAppStore((s) => s.recipes);
+  const addToShoppingList = useAppStore((s) => s.addToShoppingList);
   const recipe = recipes[Number(id)];
+  const [addedMessage, setAddedMessage] = useState<string | null>(null);
+
+  const handleAddToShoppingList = () => {
+    if (!recipe) return;
+    if (recipe.부족재료.length === 0) {
+      setAddedMessage("이 레시피는 부족한 재료가 없어요.");
+      return;
+    }
+    addToShoppingList(recipe.부족재료);
+    setAddedMessage(`부족한 재료 ${recipe.부족재료.length}개를 장보기 리스트에 담았어요.`);
+  };
 
   if (!recipe) {
     return (
@@ -31,9 +43,14 @@ export default function RecipeDetailPage({
   return (
     <div className="flex flex-1 flex-col items-center bg-zinc-50 px-4 py-12">
       <div className="w-full max-w-lg">
-        <Link href="/recipes" className="text-sm text-zinc-500 hover:text-zinc-800">
-          ← 목록으로
-        </Link>
+        <div className="flex items-center justify-between">
+          <Link href="/recipes" className="text-sm text-zinc-500 hover:text-zinc-800">
+            ← 목록으로
+          </Link>
+          <Link href="/shopping-list" className="text-sm text-zinc-500 hover:text-zinc-800">
+            장보기 리스트
+          </Link>
+        </div>
 
         <div className="mt-3 flex items-start justify-between gap-3">
           <h1 className="text-2xl font-bold text-zinc-900">{recipe.레시피명}</h1>
@@ -90,12 +107,16 @@ export default function RecipeDetailPage({
 
         <button
           type="button"
-          disabled
-          title="다음 단계에서 지원 예정입니다."
-          className="mt-8 w-full rounded-xl border border-zinc-300 py-4 text-base font-semibold text-zinc-400"
+          onClick={handleAddToShoppingList}
+          className="mt-8 w-full rounded-xl border border-zinc-900 py-4 text-base font-semibold text-zinc-900 hover:bg-zinc-900 hover:text-white"
         >
           장보기 리스트에 담기
         </button>
+        {addedMessage && (
+          <p className="mt-3 rounded-lg bg-green-50 px-4 py-3 text-center text-sm text-green-700">
+            {addedMessage}
+          </p>
+        )}
       </div>
     </div>
   );

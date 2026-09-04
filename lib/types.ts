@@ -19,3 +19,9 @@ export interface Recipe {
 export interface RecommendResponse {
   레시피목록: Recipe[];
 }
+
+export interface ShoppingListItem {
+  이름: string;
+  수량: string;
+  checked: boolean;
+}
